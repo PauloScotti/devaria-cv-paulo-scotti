@@ -40,7 +40,7 @@ const ContactUsForm: React.FC<IContactUsForm> = ({ className, formControlClass, 
     mode: 'all'
   });
   const errors = formState.errors as any;
-  const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY_EMAILJS;
+  const publicKey = process.env.NEXT_APP_PUBLIC_KEY_EMAILJS;
   const onSubmit = async (data: IFormData, e: React.BaseSyntheticEvent<any> | undefined) => {
     emailjs.init({
       publicKey: publicKey,
@@ -51,7 +51,7 @@ const ContactUsForm: React.FC<IContactUsForm> = ({ className, formControlClass, 
       email: e?.target.email?.value,
       message: e?.target.message?.value
     }
-    await emailjs.send(process.env.NEXT_PUBLIC_SERVICE_ID_EMAILJS, process.env.NEXT_PUBLIC_TEMPLATE_ID_EMAILJS, templateParms).then(
+    await emailjs.send(process.env.NEXT_APP_SERVICE_ID_EMAILJS, process.env.NEXT_APP_TEMPLATE_ID_EMAILJS, templateParms).then(
       (response) => {
         setMessage(HTMLParser(response.text));
         reset();
