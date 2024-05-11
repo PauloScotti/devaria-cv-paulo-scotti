@@ -3,12 +3,6 @@ const path = require('path')
 const nextConfig = {
   trailingSlash: true,
   reactStrictMode: false,
-  basePath: [
-    process.env.NODE_ENV === 'development' ? '' : '',
-    process.env.NEXT_APP_PUBLIC_KEY_EMAILJS === '',
-    process.env.NEXT_APP_SERVICE_ID_EMAILJS === '',
-    process.env.NEXT_APP_TEMPLATE_ID_EMAILJS === '',
-  ],
   async rewrites() {
     return [
       {
