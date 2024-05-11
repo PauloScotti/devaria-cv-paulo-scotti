@@ -7,6 +7,8 @@ import HTMLParser, { domToReact } from "html-react-parser";
 import { liveURL } from '../../../custom.config';
 import { IFormData } from "../../../typescript/interfaces/contactus.interface";
 import FloatingFormGroup from "./floatingFormGroup";
+import emailjs from '@emailjs/browser';
+import 'dotenv/config';
 
 interface IContactUsForm {
   className?: string
@@ -38,20 +40,29 @@ const ContactUsForm: React.FC<IContactUsForm> = ({ className, formControlClass, 
     mode: 'all'
   });
   const errors = formState.errors as any;
+  const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY_EMAILJS;
   const onSubmit = async (data: IFormData, e: React.BaseSyntheticEvent<any> | undefined) => {
-    const res = await fetch(liveURL + '/php/contact.php', {
-      body: new FormData((e?.target as HTMLFormElement)),
-      method: 'POST'
+    emailjs.init({
+      publicKey: publicKey,
     })
-    const result: string = await res.text();
-    if (result) {
-      setMessage(HTMLParser(result));
-      reset();
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000)
+    const templateParms = {
+      from_name: e?.target.fullname?.value,
+      company: e?.target.company?.value,
+      email: e?.target.email?.value,
+      message: e?.target.message?.value
     }
-    return false;
+    await emailjs.send(process.env.NEXT_PUBLIC_SERVICE_ID_EMAILJS, process.env.NEXT_PUBLIC_TEMPLATE_ID_EMAILJS, templateParms).then(
+      (response) => {
+        setMessage(HTMLParser(response.text));
+        reset();
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000)
+      },
+      (error) => {
+        console.log('Erro ao enviar o email: ', error);
+      },
+    );
   }
   return (
     <>
