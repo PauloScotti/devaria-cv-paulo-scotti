@@ -100,7 +100,7 @@ const Settings: React.FC<ISettings> = () => {
   }
   return (
     <div className={"demo hide-in-print" + (activeClass ? ' active' : '')}>
-      {/*
+
       <a href="javascript:void(0)" className="settings" onClick={() => { setActiveClass(!activeClass) }}>
         <i className="bx bx-cog"></i>
       </a>
@@ -127,7 +127,7 @@ const Settings: React.FC<ISettings> = () => {
               }
             </Dropdown.Menu>
           </Dropdown>
-        </div> 
+        </div>
         <div>
           <h5>SELECT A COLOR</h5>
           {
@@ -143,7 +143,7 @@ const Settings: React.FC<ISettings> = () => {
           <Button variant="info" size="sm" className="reset ps-30 pe-30 mt-15" onClick={resetThemeColor}>Reset</Button>
         </div>
       </div>
-      */}
+
     </div>
   )
 }
