@@ -28,15 +28,15 @@ const Settings: React.FC<ISettings> = () => {
   const currentPageIndex: IPageURL | null | undefined = React.useMemo(() => {
     const url = router.pathname.split("/");
     if (url.length > 1) {
-      return pageURLs.find((item: IPageURL) => item.url === (liveURL + '/'+url[1]))
+      return pageURLs.find((item: IPageURL) => item.url === (liveURL + '/' + url[1]))
     }
     return null
   }, [router])
-  
+
   React.useEffect(() => {
     if (router.query && router.query.hasOwnProperty('dark')) {
       const isLight = router.query.dark === "true" ? false : true;
-      if(typeof window !== "undefined") {
+      if (typeof window !== "undefined") {
         dayLightTheme(isLight)
       }
     }
@@ -48,7 +48,7 @@ const Settings: React.FC<ISettings> = () => {
     addLayoutClass(bodyElem);
     if (!ISSERVER) {
       setIsLight(window.localStorage.getItem("theme-light") === 'true');
-      const themeType = window.localStorage.getItem("fileName") || "teal";
+      const themeType = window.localStorage.getItem("fileName") || "primary";
       bodyElem.classList.add("theme-type-" + themeType);
     }
   }, []);
@@ -100,7 +100,7 @@ const Settings: React.FC<ISettings> = () => {
   }
   return (
     <div className={"demo hide-in-print" + (activeClass ? ' active' : '')}>
-       {/*
+      {/*
       <a href="javascript:void(0)" className="settings" onClick={() => { setActiveClass(!activeClass) }}>
         <i className="bx bx-cog"></i>
       </a>

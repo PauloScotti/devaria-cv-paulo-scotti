@@ -3,6 +3,7 @@ const path = require('path')
 const nextConfig = {
   trailingSlash: true,
   reactStrictMode: false,
+  basePath: process.env.NODE_ENV === 'development' ? '' : '',
   async rewrites() {
     return [
       {

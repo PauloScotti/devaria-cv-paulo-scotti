@@ -4,11 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import HTMLParser, { domToReact } from "html-react-parser";
-import { liveURL } from '../../../custom.config';
 import { IFormData } from "../../../typescript/interfaces/contactus.interface";
 import FloatingFormGroup from "./floatingFormGroup";
 import emailjs from '@emailjs/browser';
-import 'dotenv/config';
 
 interface IContactUsForm {
   className?: string
@@ -18,6 +16,7 @@ interface IContactUsForm {
   btnFullWidth?: boolean;
   btnType?: 'outline' | 'solid';
 }
+
 const ContactUsForm: React.FC<IContactUsForm> = ({ className, formControlClass, btnFullWidth, fullWidth, hideLabels, btnType }) => {
   const [message, setMessage] = React.useState<ReturnType<typeof domToReact> | null>(null);
   // form validation rules 
@@ -40,18 +39,18 @@ const ContactUsForm: React.FC<IContactUsForm> = ({ className, formControlClass, 
     mode: 'all'
   });
   const errors = formState.errors as any;
-  const publicKey = process.env.NEXT_APP_PUBLIC_KEY_EMAILJS;
   const onSubmit = async (data: IFormData, e: React.BaseSyntheticEvent<any> | undefined) => {
     emailjs.init({
-      publicKey: publicKey,
+      publicKey: process.env.NEXT_PUBLIC_KEY_EMAILJS as string,
     })
-    const templateParms = {
-      from_name: e?.target.fullname?.value,
-      company: e?.target.company?.value,
-      email: e?.target.email?.value,
-      message: e?.target.message?.value
+    const templateParams = {
+      to_name: "Paulo Scotti",
+      from_name: data.fullname,
+      company: data.company,
+      email: data.email,
+      message: data.message
     }
-    await emailjs.send(process.env.NEXT_APP_SERVICE_ID_EMAILJS, process.env.NEXT_APP_TEMPLATE_ID_EMAILJS, templateParms).then(
+    await emailjs.send(process.env.NEXT_PUBLIC_SERVICE_ID_EMAILJS as string, process.env.NEXT_PUBLIC_TEMPLATE_ID_EMAILJS as string, templateParams).then(
       (response) => {
         setMessage(HTMLParser(response.text));
         reset();
